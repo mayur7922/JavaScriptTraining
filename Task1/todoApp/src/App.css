@@ -21,11 +21,6 @@ body {
   align-items: center;
 }
 
-.header .inputContainer {
-  display: flex;
-  flex-direction: column;
-}
-
 .header input {
   width: 200px;
   height: 40px;
@@ -81,6 +76,7 @@ body {
   font-size: 18px;
   border-right: none;
   background-color: tomato;
+  border-radius: 8px;
 }
 
 .task button {
@@ -92,4 +88,12 @@ body {
   border-bottom-right-radius: 8px;
   color: white;
   cursor: pointer;
+  border: 1px solid white;
+}
+
+.task.completed {
+  text-decoration: line-through;
+  text-decoration-thickness: 7px;
+  text-decoration-color: black;
+  color: black;
 }

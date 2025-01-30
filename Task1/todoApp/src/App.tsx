@@ -1,9 +1,7 @@
-import React, { useState, ChangeEvent, FC } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, ChangeEvent } from 'react'
 import './App.css'
 import {ITask} from './Interfaces'
-import TodoTask from './Components/todoTask'
+import TodoTask from './Components/TodoTask'
 
 const App = () => {
   const [task, setTask] = useState<string>("");
@@ -16,10 +14,11 @@ const App = () => {
   }
 
   const addTask = (): void => {
-    const newTask = { taskName: task};
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split("T")[0];
+    const newTask = { taskName: task, date: formattedDate, completed: false};
     setTodoList([...todoList, newTask]);
     setTask("");
-    // console.log(todoList);
   }
 
   const completeTask = (taskNameToDelete: string): void => {
@@ -27,18 +26,26 @@ const App = () => {
       return task.taskName != taskNameToDelete;
     }))
   }
+
+  const toggleTaskCompletion = (taskNameToToggle: string) => {
+    setTodoList((todoList) =>
+      todoList.map((task) =>
+        task.taskName === taskNameToToggle
+          ? { ...task, completed: !task.completed }
+          : task
+      )
+    );
+  };
   
   return <div className='App'>
     <h2>ToDo App</h2>
     <div className='header'>
-      {/* <div className='inputContainer'></div> */}
       <input type="text" placeholder='Enter the task....' name='task' value={task} onChange={handleChange} />
-      {/* add date automatically using new Date method of javascript */}
-      <button onClick={addTask}>Add task</button>
+      <button onClick={addTask}>Add</button>
     </div>
     <div className='todoList'>
       {todoList.map((task: ITask, key: number) => {
-        return <TodoTask key={key} task={task} completeTask={completeTask} />
+        return <TodoTask key={key} task={task} completeTask={completeTask} toggleTaskCompletion={toggleTaskCompletion} />
       })}
     </div>
     </div>
